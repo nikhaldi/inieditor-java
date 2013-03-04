@@ -47,6 +47,13 @@ This is how the file turned out:
     last_login = 2003-05-13
 
 
+Documentation
+-------------
+
+The latest JavaDocs generated from the source are available at
+http://nikhaldi.github.com/inieditor-java/javadoc/
+
+
 Installation
 ------------
 
@@ -57,13 +64,6 @@ Put the file `lib/inieditor.jar` on your classpath. Import the
 
 Alternatively, you can compile the sources in the `src` directory
 yourself.
-
-
-Documentation
--------------
-
-Open the file `javadoc/index.html` in a browser for the
-Javadoc-generated documentation.
 
 
 Changelog
