@@ -88,6 +88,7 @@ r5 (3/4/2013):
 - revived the code from an old backup
 - renamed package from `ch.ubique.inieditor` to `com.nikhaldimann.inieditor`,
   as I don't own the ubique.ch domain anymore
+- used generic collection types throughout
 
 License
 -------

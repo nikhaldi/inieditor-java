@@ -374,7 +374,7 @@ public class IniEditorTest extends TestCase {
 
     private static Object[] fileToStrings(File f) throws IOException {
         BufferedReader r = new BufferedReader(new FileReader(f));
-        List l = new LinkedList();
+        List<String> l = new LinkedList<String>();
         while (r.ready()) {
             l.add(r.readLine());
         }

@@ -114,8 +114,8 @@ public class IniEditor {
 
     private static boolean DEFAULT_CASE_SENSITIVITY = false;
 
-    private Map sections;
-    private List sectionOrder;
+    private Map<String, Section> sections;
+    private List<String> sectionOrder;
     private String commonName;
     private char[] commentDelims;
     private boolean isCaseSensitive;
@@ -209,8 +209,8 @@ public class IniEditor {
      *    comments
      */
     public IniEditor(String commonName, char[] delims, boolean isCaseSensitive) {
-        this.sections = new HashMap();
-        this.sectionOrder = new LinkedList();
+        this.sections = new HashMap<String, Section>();
+        this.sectionOrder = new LinkedList<String>();
         this.isCaseSensitive = isCaseSensitive;
         if (commonName != null) {
             this.commonName = commonName;
@@ -381,8 +381,8 @@ public class IniEditor {
      *
      * @return list of the section names in original/insertion order
      */
-    public List sectionNames() {
-        List sectList = new ArrayList(this.sectionOrder);
+    public List<String> sectionNames() {
+        List<String> sectList = new ArrayList<String>(this.sectionOrder);
         if (this.commonName != null) {
             sectList.remove(this.commonName);
         }
@@ -397,7 +397,7 @@ public class IniEditor {
      * @return list of option names
      * @throws IniEditor.NoSuchSectionException no section with the given name exists
      */
-    public List optionNames(String section) {
+    public List<String> optionNames(String section) {
         if (hasSection(section)) {
             return getSection(section).optionNames();
         }
@@ -480,10 +480,10 @@ public class IniEditor {
      * @throws IOException at an I/O problem
      */
     public void save(OutputStreamWriter streamWriter) throws IOException {
-        Iterator it = this.sectionOrder.iterator();
+        Iterator<String> it = this.sectionOrder.iterator();
         PrintWriter writer = new PrintWriter(streamWriter, true);
         while (it.hasNext()) {
-            Section sect = getSection((String)it.next());
+            Section sect = getSection(it.next());
             writer.println(sect.header());
             sect.save(writer);
         }
@@ -564,7 +564,7 @@ public class IniEditor {
      * @return the section
      */
     private Section getSection(String name) {
-        return (Section)sections.get(normSection(name));
+        return sections.get(normSection(name));
     }
 
     /**
@@ -602,8 +602,8 @@ public class IniEditor {
     public static class Section {
 
         private String name;
-        private Map options;
-        private List lines;
+        private Map<String, Option> options;
+        private List<Line> lines;
         private char[] optionDelims;
         private char[] optionDelimsSorted;
         private char[] commentDelims;
@@ -675,8 +675,8 @@ public class IniEditor {
             }
             this.name = name;
             this.isCaseSensitive = isCaseSensitive;
-            this.options = new HashMap();
-            this.lines = new LinkedList();
+            this.options = new HashMap<String, Option>();
+            this.lines = new LinkedList<Line>();
             this.optionDelims = DEFAULT_OPTION_DELIMS;
             this.commentDelims = (delims == null ? DEFAULT_COMMENT_DELIMS : delims);
             this.optionFormat = new OptionFormat(DEFAULT_OPTION_FORMAT);
@@ -728,11 +728,11 @@ public class IniEditor {
          * @return list of names of this section's options in
          *      original/insertion order
          */
-        public List optionNames() {
-            List optNames = new LinkedList();
-            Iterator it = this.lines.iterator();
+        public List<String> optionNames() {
+            List<String> optNames = new LinkedList<String>();
+            Iterator<Line> it = this.lines.iterator();
             while (it.hasNext()) {
-                Object line = it.next();
+                Line line = it.next();
                 if (line instanceof Option) {
                     optNames.add(((Option)line).name());
                 }
@@ -930,9 +930,9 @@ public class IniEditor {
          * @throws IOException at an I/O problem
          */
         public void save(PrintWriter writer) throws IOException {
-            Iterator it = this.lines.iterator();
+            Iterator<Line> it = this.lines.iterator();
             while (it.hasNext()) {
-                writer.println(((Line)it.next()).toString());
+                writer.println(it.next().toString());
             }
             if (writer.checkError()) {
                 throw new IOException();
@@ -947,7 +947,7 @@ public class IniEditor {
          * @throws NullPointerException if no option with the specified name exists
          */
         private Option getOption(String name) {
-            return (Option)this.options.get(name);
+            return this.options.get(name);
         }
 
         /**
