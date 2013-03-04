@@ -7,6 +7,46 @@ formatting of a loaded INI file: It represents comments, blank lines as
 well as the order of sections and lines.
 
 
+Example code
+------------
+
+Here's a minimal example. Suppose, we have this in a file called
+`users.ini`:
+
+    [root]
+    role = administrator
+    last_login = 2003-05-04
+
+    [joe]
+    role = author
+    last_login = 2003-05-13
+
+Let's load that file, add something to it and save the changes:
+
+    import com.nikhaldimann.inieditor.IniEditor;
+
+    IniEditor users = new IniEditor();
+    users.load("users.ini");
+    users.set("root", "last_login", "2003-05-16");
+    users.addComment("root", "Must change password often");
+    users.set("root", "change_pwd", "10 days");
+    users.addBlankLine("root");
+    users.save("users.ini");
+
+This is how the file turned out:
+
+    [root]
+    role = administrator
+    last_login = 2003-05-16
+
+    # Must change password often
+    change_pwd = 10 days
+
+    [joe]
+    role = author
+    last_login = 2003-05-13
+
+
 Installation
 ------------
 
@@ -46,7 +86,7 @@ r4 (8/10/2005):
 
 r5 (3/4/2013):
 - revived the code from an old backup
-- renamed package from ch.ubique.inieditor to com.nikhaldimann.inieditor,
+- renamed package from `ch.ubique.inieditor` to `com.nikhaldimann.inieditor`,
   as I don't own the ubique.ch domain anymore
 
 License
