@@ -50,45 +50,45 @@ This is how the file turned out:
 Documentation
 -------------
 
-The latest JavaDocs generated from the source are available at
+The latest JavaDocs generated from the source are at
 http://nikhaldi.github.com/inieditor-java/javadoc/
 
 
-Installation
-------------
+Downloads
+---------
 
-Put the file `lib/inieditor.jar` on your classpath. Import the
-`IniEditor` class with the statement:
+The latest release including a precompiled JAR file is available at
+http://nikhaldi.github.com/inieditor-java/downloads/inieditor.tar.gz
 
-    import com.nikhaldimann.inieditor.IniEditor;
-
-Alternatively, you can compile the sources in the `src` directory
-yourself.
+If for some reason you need an older release, r4 (from before the
+package rename) is also available at
+http://nikhaldi.github.com/inieditor-java/downloads/inieditor-r4.tar.gz
 
 
 Changelog
 ---------
 
-r1 (07/31/2003):
+r1, 07/31/2003:
 - initial public release
 
-r2 (12/20/2003):
+r2, 12/20/2003:
 - added methods load(InputStreamReader) and save(OutputStreamWriter) to
   support character encodings other than the default one through readers
   and writers.
 
-r3 (5/4/2005):
+r3, 5/4/2005:
 - fixed bug where loaded files weren't closed properly.
 
-r4 (8/10/2005):
+r4, 8/10/2005 ([download](http://nikhaldi.github.com/inieditor-java/downloads/inieditor-r4.tar.gz)):
 - added the concept of an option format which makes it possible to
   finetune the output format when saving to a file.
 
-r5 (3/4/2013):
+r5, 3/4/2013 ([download](http://nikhaldi.github.com/inieditor-java/downloads/inieditor.tar.gz)):
 - revived the code from an old backup
 - renamed package from `ch.ubique.inieditor` to `com.nikhaldimann.inieditor`,
   as I don't own the ubique.ch domain anymore
 - used generic collection types throughout
+
 
 License
 -------
