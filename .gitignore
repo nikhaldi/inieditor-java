@@ -1,5 +1,6 @@
 build/
 dist/
 javadoc/
+target/
 
 .DS_Store
