@@ -10,7 +10,7 @@
     <groupId>com.nikhaldimann</groupId>
     <artifactId>inieditor</artifactId>
     <packaging>jar</packaging>
-    <version>r5</version>
+    <version>r6-SNAPSHOT</version>
     <name>IniEditor</name>
     <description>A small library to read and edit INI-style configuration files</description>
     <url>https://github.com/nikhaldi/inieditor-java</url>
