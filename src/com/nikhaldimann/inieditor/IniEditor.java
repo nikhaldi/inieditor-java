@@ -267,6 +267,26 @@ public class IniEditor {
     }
 
     /**
+     * Returns a map of a given section with option/value pairs or null if the
+     * section doesn't exist.
+     *
+     * @param section the section's name
+     * @return HashMap of option/value pairs from the section
+     * @throws NullPointerException if section is <code>null</code>
+     */
+    public Map< String, String > getSectionMap(String section) {
+        Map< String, String > sectionMap = new HashMap< String, String >();
+        if (hasSection(section)) {
+            Section sect = getSection(section);
+            for(String key : sect.options.keySet()) {
+                sectionMap.put(key, sect.options.get(key).value);
+            }
+            return sectionMap;
+        }
+        return null;
+    }
+
+    /**
      * Sets the value of an option in a section, if the option exist, otherwise
      * adds the option to the section. Trims white space from the start and the
      * end of the value and deletes newline characters it might contain.

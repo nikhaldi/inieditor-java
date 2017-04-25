@@ -6,6 +6,7 @@ import com.nikhaldimann.inieditor.IniEditor;
 import java.io.*;
 import java.util.*;
 
+@SuppressWarnings("LossyEncoding")
 public class IniEditorTest extends TestCase {
 
     public IniEditorTest(String name) {
@@ -128,6 +129,26 @@ public class IniEditorTest extends TestCase {
 		i.set("test", "hallo", "bike");
     	assertEquals(i.get("test", "hallo"), "bike");
     }
+
+    public void testGetSectionMap() {
+		IniEditor i = new IniEditor();
+		assertEquals(i.getSectionMap("test"), null);
+		i.addSection("test");
+		assertEquals(i.getSectionMap("test"), new HashMap<String, String>());
+		i.set("test", "hallo", "bike");
+		Map< String, String > temp = new HashMap<String, String>();
+		temp.put("hallo", "bike");
+		assertEquals(i.getSectionMap("test"), temp);
+		try {
+			i.getSectionMap(null);
+			fail("Should throw NullPointerException");
+		}
+		catch (NullPointerException ex) {
+            /* ok, this should happen */
+		}
+		i = new IniEditor("common");
+		assertEquals(i.getSectionMap("common"), new HashMap<String, String>());
+	}
 
 	/**
 	 * Setting options with illegal names.
@@ -306,17 +327,17 @@ public class IniEditorTest extends TestCase {
      */
     public void testSaveLoadCharset() throws IOException {
        	String[] expected = new String[] {
-       	    "[cšmmšn]", "[tŽst]", "", "h‰llo = vel›"
+       	    "[cï¿½mmï¿½n]", "[tï¿½st]", "", "hï¿½llo = velï¿½"
         };
         String charsetName = "UTF-16";
-        IniEditor i = new IniEditor("cšmmšn");
-       	i.addSection("tŽst");
-       	i.set("tŽst", "h‰llo", "vel›");
+        IniEditor i = new IniEditor("cï¿½mmï¿½n");
+       	i.addSection("tï¿½st");
+       	i.set("tï¿½st", "hï¿½llo", "velï¿½");
         File f = File.createTempFile("test", null);
         i.save(new OutputStreamWriter(new FileOutputStream(f), charsetName));
-		i = new IniEditor("cšmmšn");
+		i = new IniEditor("cï¿½mmï¿½n");
 		i.load(new InputStreamReader(new FileInputStream(f), charsetName));
-		assertEquals(i.get("tŽst", "h‰llo"), "vel›");
+		assertEquals(i.get("tï¿½st", "hï¿½llo"), "velï¿½");
 	}
 
 	/**
