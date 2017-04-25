@@ -13,184 +13,184 @@ public class IniEditorTest extends TestCase {
         super(name);
     }
 
-	/**
-	 * Adding sections.
-	 */
+    /**
+     * Adding sections.
+     */
     public void testAddSection() {
-    	IniEditor i = new IniEditor();
-    	i.addSection("hallo");
-    	assertTrue(i.hasSection("hallo"));
-    	i.addSection("   HELLO\t ");
-    	assertTrue(i.hasSection("hello"));
+        IniEditor i = new IniEditor();
+        i.addSection("hallo");
+        assertTrue(i.hasSection("hallo"));
+        i.addSection("   HELLO\t ");
+        assertTrue(i.hasSection("hello"));
     }
 
-	/**
-	 * Adding duplicate sections.
-	 */
+    /**
+     * Adding duplicate sections.
+     */
     public void testAddSectionDup() {
-    	IniEditor i = new IniEditor();
-    	assertTrue(i.addSection("hallo"));
-    	assertTrue(i.hasSection("hallo"));
-   		assertTrue(!i.addSection("HALLO"));
+        IniEditor i = new IniEditor();
+        assertTrue(i.addSection("hallo"));
+        assertTrue(i.hasSection("hallo"));
+        assertTrue(!i.addSection("HALLO"));
     }
 
-	/**
-	 * Adding illegal sections.
-	 */
+    /**
+     * Adding illegal sections.
+     */
     public void testAddSectionIllegal() {
-    	IniEditor i = new IniEditor();
-    	try {
-    		i.addSection("[hallo");
-    		fail("Should throw IllegalArgumentException.");
-    	}
-    	catch (IllegalArgumentException ex) {
-    		/* ok, this should happen */
-    	}
-    	try {
-    		i.addSection("hallo]");
-    		fail("Should throw IllegalArgumentException.");
-    	}
-    	catch (IllegalArgumentException ex) {
-    		/* ok, this should happen */
-    	}
-    	try {
-    		i.addSection("  \t ");
-    		fail("Should throw IllegalArgumentException.");
-    	}
-    	catch (IllegalArgumentException ex) {
-    		/* ok, this should happen */
-    	}
-    	try {
-    		i.addSection("");
-    		fail("Should throw IllegalArgumentException.");
-    	}
-    	catch (IllegalArgumentException ex) {
-    		/* ok, this should happen */
-    	}
+        IniEditor i = new IniEditor();
+        try {
+            i.addSection("[hallo");
+            fail("Should throw IllegalArgumentException.");
+        }
+        catch (IllegalArgumentException ex) {
+            /* ok, this should happen */
+        }
+        try {
+            i.addSection("hallo]");
+            fail("Should throw IllegalArgumentException.");
+        }
+        catch (IllegalArgumentException ex) {
+            /* ok, this should happen */
+        }
+        try {
+            i.addSection("  \t ");
+            fail("Should throw IllegalArgumentException.");
+        }
+        catch (IllegalArgumentException ex) {
+            /* ok, this should happen */
+        }
+        try {
+            i.addSection("");
+            fail("Should throw IllegalArgumentException.");
+        }
+        catch (IllegalArgumentException ex) {
+            /* ok, this should happen */
+        }
     }
 
-	/**
-	 * Checking for sections.
-	 */
+    /**
+     * Checking for sections.
+     */
     public void testHasSection() {
-    	IniEditor i = new IniEditor();
-    	i.addSection("HaLlO");
-    	assertTrue(i.hasSection("hAlLo"));
-    	assertTrue(i.hasSection(" hallo\t"));
-    	assertTrue(!i.hasSection("hello"));
+        IniEditor i = new IniEditor();
+        i.addSection("HaLlO");
+        assertTrue(i.hasSection("hAlLo"));
+        assertTrue(i.hasSection(" hallo\t"));
+        assertTrue(!i.hasSection("hello"));
     }
 
-	/**
-	 * Removing sections.
-	 */
+    /**
+     * Removing sections.
+     */
     public void testRemoveSection() {
-    	IniEditor i = new IniEditor("common");
-    	i.addSection("test");
-    	try {
-        	i.removeSection("common");
-        	fail("Should throw IllegalArgumentException");
+        IniEditor i = new IniEditor("common");
+        i.addSection("test");
+        try {
+            i.removeSection("common");
+            fail("Should throw IllegalArgumentException");
         }
         catch (IllegalArgumentException ex) {
             /* ok, this should happen */
         }
         assertTrue(i.removeSection("test"));
-    	assertTrue(!i.hasSection("test"));
+        assertTrue(!i.hasSection("test"));
         assertTrue(!i.removeSection("bla"));
     }
 
-	/**
-	 * Setting and getting options.
-	 */
+    /**
+     * Setting and getting options.
+     */
     public void testSetGet() {
-    	IniEditor i = new IniEditor();
-    	i.addSection("test");
-    	assertEquals(i.get("test", "hallo"), null);
-    	assertTrue(!i.hasOption("test", "hallo"));
-		i.set(" \t TEST  ", " HALLO \t", " \tvelo ");
-		assertEquals(i.get("test", "hallo"), "velo");
-    	assertTrue(i.hasOption("test", "hallo"));
-		i.set("test", "hallo", "bike");
-		assertEquals(i.get(" TesT\t ", " \tHALLO "), "bike");
-    	assertTrue(i.hasOption("test", "hallo"));
-		i.set("test", "hallo", "bi\nk\n\re\n");
-		assertEquals(i.get("test", "hallo"), "bike");
-    	assertTrue(i.hasOption("test", "hallo"));
+        IniEditor i = new IniEditor();
+        i.addSection("test");
+        assertEquals(i.get("test", "hallo"), null);
+        assertTrue(!i.hasOption("test", "hallo"));
+        i.set(" \t TEST  ", " HALLO \t", " \tvelo ");
+        assertEquals(i.get("test", "hallo"), "velo");
+        assertTrue(i.hasOption("test", "hallo"));
+        i.set("test", "hallo", "bike");
+        assertEquals(i.get(" TesT\t ", " \tHALLO "), "bike");
+        assertTrue(i.hasOption("test", "hallo"));
+        i.set("test", "hallo", "bi\nk\n\re\n");
+        assertEquals(i.get("test", "hallo"), "bike");
+        assertTrue(i.hasOption("test", "hallo"));
         // with common section
-    	i = new IniEditor("common");
-    	i.addSection("test");
-    	assertEquals(i.get("common", "hallo"), null);
-    	assertEquals(i.get("test", "hallo"), null);
-    	assertTrue(!i.hasOption("test", "hallo"));
-		i.set("common", "hallo", "velo");
-    	assertEquals(i.get("common", "hallo"), "velo");
-    	assertEquals(i.get("test", "hallo"), "velo");
-    	assertTrue(i.hasOption("common", "hallo"));
-    	assertTrue(!i.hasOption("test", "hallo"));
-		i.set("test", "hallo", "bike");
-    	assertEquals(i.get("test", "hallo"), "bike");
+        i = new IniEditor("common");
+        i.addSection("test");
+        assertEquals(i.get("common", "hallo"), null);
+        assertEquals(i.get("test", "hallo"), null);
+        assertTrue(!i.hasOption("test", "hallo"));
+        i.set("common", "hallo", "velo");
+        assertEquals(i.get("common", "hallo"), "velo");
+        assertEquals(i.get("test", "hallo"), "velo");
+        assertTrue(i.hasOption("common", "hallo"));
+        assertTrue(!i.hasOption("test", "hallo"));
+        i.set("test", "hallo", "bike");
+        assertEquals(i.get("test", "hallo"), "bike");
     }
 
     public void testGetSectionMap() {
-		IniEditor i = new IniEditor();
-		assertEquals(i.getSectionMap("test"), null);
-		i.addSection("test");
-		assertEquals(i.getSectionMap("test"), new HashMap<String, String>());
-		i.set("test", "hallo", "bike");
-		Map< String, String > temp = new HashMap<String, String>();
-		temp.put("hallo", "bike");
-		assertEquals(i.getSectionMap("test"), temp);
-		try {
-			i.getSectionMap(null);
-			fail("Should throw NullPointerException");
-		}
-		catch (NullPointerException ex) {
-            /* ok, this should happen */
-		}
-		i = new IniEditor("common");
-		assertEquals(i.getSectionMap("common"), new HashMap<String, String>());
-	}
-
-	/**
-	 * Setting options with illegal names.
-	 */
-    public void testSetIllegalName() {
-    	IniEditor i = new IniEditor();
-    	i.addSection("test");
-    	try {
-			i.set("test", "hallo=", "velo");
-			fail("Should throw IllegalArgumentException");
-		}
-		catch (IllegalArgumentException ex) {
-			/* ok, this should happen */
-		}
-    	try {
-			i.set("test", " \t\t ", "velo");
-			fail("Should throw IllegalArgumentException");
-		}
-		catch (IllegalArgumentException ex) {
-			/* ok, this should happen */
-		}
-    	try {
-			i.set("test", "", "velo");
-			fail("Should throw IllegalArgumentException");
-		}
-		catch (IllegalArgumentException ex) {
-			/* ok, this should happen */
-		}
+        IniEditor i = new IniEditor();
+        assertNull(i.getSectionMap("test"));
+        i.addSection("test");
+        assertEquals(i.getSectionMap("test"), new HashMap<String, String>());
+        i.set("test", "hallo", "bike");
+        Map<String, String> temp = new HashMap<String, String>();
+        temp.put("hallo", "bike");
+        assertEquals(i.getSectionMap("test"), temp);
+        try {
+            i.getSectionMap(null);
+            fail("Should throw NullPointerException");
+        }
+        catch (NullPointerException ex) {
+        /* ok, this should happen */
+        }
+        i = new IniEditor("common");
+        assertEquals(i.getSectionMap("common"), new HashMap<String, String>());
     }
 
-	/**
-	 * Setting options to inexistent section.
-	 */
+    /**
+     * Setting options with illegal names.
+     */
+    public void testSetIllegalName() {
+        IniEditor i = new IniEditor();
+        i.addSection("test");
+        try {
+            i.set("test", "hallo=", "velo");
+            fail("Should throw IllegalArgumentException");
+        }
+        catch (IllegalArgumentException ex) {
+            /* ok, this should happen */
+        }
+        try {
+            i.set("test", " \t\t ", "velo");
+            fail("Should throw IllegalArgumentException");
+        }
+        catch (IllegalArgumentException ex) {
+            /* ok, this should happen */
+        }
+        try {
+            i.set("test", "", "velo");
+            fail("Should throw IllegalArgumentException");
+        }
+        catch (IllegalArgumentException ex) {
+            /* ok, this should happen */
+        }
+    }
+
+    /**
+     * Setting options to inexistent section.
+     */
     public void testSetNoSuchSection() {
-    	IniEditor i = new IniEditor();
-    	try {
-			i.set("test", "hallo", "velo");
-			fail("Should throw NoSuchSectionException");
-		}
-		catch (IniEditor.NoSuchSectionException ex) {
-			/* ok, this should happen */
-		}
+        IniEditor i = new IniEditor();
+        try {
+            i.set("test", "hallo", "velo");
+            fail("Should throw NoSuchSectionException");
+        }
+        catch (IniEditor.NoSuchSectionException ex) {
+            /* ok, this should happen */
+        }
     }
 
     /**
@@ -198,7 +198,7 @@ public class IniEditorTest extends TestCase {
      */
     public void testSetGetNull() {
         IniEditor i = new IniEditor();
-       	i.addSection("test");
+        i.addSection("test");
         try {
             i.set(null, "hallo", "velo");
             fail("Should throw NullPointerException");
@@ -235,20 +235,20 @@ public class IniEditorTest extends TestCase {
      */
     public void testRemoveOptions() {
         IniEditor i = new IniEditor();
-       	i.addSection("test");
-       	i.set("test", "hallo", "velo");
-       	assertTrue(i.hasOption("test", "hallo"));
-       	assertTrue(i.remove("test", "hallo"));
-       	assertEquals(i.get("test", "hallo"), null);
-       	assertTrue(!i.hasOption("test", "hallo"));
-       	assertTrue(!i.remove("test", "hallo"));
-       	try {
-       	    i.remove("test2", "hallo");
-       	    fail ("Should throw NoSuchSectionException");
-       	}
-       	catch (IniEditor.NoSuchSectionException ex) {
-       	    /* ok, should happen */
-       	}
+        i.addSection("test");
+        i.set("test", "hallo", "velo");
+        assertTrue(i.hasOption("test", "hallo"));
+        assertTrue(i.remove("test", "hallo"));
+        assertEquals(i.get("test", "hallo"), null);
+        assertTrue(!i.hasOption("test", "hallo"));
+        assertTrue(!i.remove("test", "hallo"));
+        try {
+            i.remove("test2", "hallo");
+            fail ("Should throw NoSuchSectionException");
+        }
+        catch (IniEditor.NoSuchSectionException ex) {
+            /* ok, should happen */
+        }
     }
 
     /**
@@ -256,18 +256,18 @@ public class IniEditorTest extends TestCase {
      */
     public void testSectionNames() {
         IniEditor i = new IniEditor();
-       	i.addSection("test");
-       	i.addSection("test2");
-       	List names = i.sectionNames();
-       	assertEquals(names.get(0), "test");
-       	assertEquals(names.get(1), "test2");
-       	assertEquals(names.size(), 2);
-       	// with common section
+        i.addSection("test");
+        i.addSection("test2");
+        List names = i.sectionNames();
+        assertEquals(names.get(0), "test");
+        assertEquals(names.get(1), "test2");
+        assertEquals(names.size(), 2);
+        // with common section
         i = new IniEditor("common");
-       	i.addSection("test");
-       	i.addSection("test2");
+        i.addSection("test");
+        i.addSection("test2");
         names = i.sectionNames();
-       	assertTrue(names.contains("test") && names.contains("test2") && names.size() == 2);
+        assertTrue(names.contains("test") && names.contains("test2") && names.size() == 2);
     }
 
     /**
@@ -275,13 +275,13 @@ public class IniEditorTest extends TestCase {
      */
     public void testOptionNames() {
         IniEditor i = new IniEditor("common");
-       	i.addSection("test");
-       	i.set("test", "hallo", "velo");
-       	i.set("test", "hello", "bike");
-       	List names = i.optionNames("test");
-       	assertEquals(names.get(0), "hallo");
-       	assertEquals(names.get(1), "hello");
-       	assertEquals(names.size(), 2);
+        i.addSection("test");
+        i.set("test", "hallo", "velo");
+        i.set("test", "hello", "bike");
+        List names = i.optionNames("test");
+        assertEquals(names.get(0), "hallo");
+        assertEquals(names.get(1), "hello");
+        assertEquals(names.size(), 2);
     }
 
     /**
@@ -289,23 +289,23 @@ public class IniEditorTest extends TestCase {
      */
     public void testAddLines() {
         IniEditor i = new IniEditor("common");
-       	i.addSection("test");
-       	i.addBlankLine("test");
-       	i.addComment("test", "hollderidi");
+        i.addSection("test");
+        i.addBlankLine("test");
+        i.addComment("test", "hollderidi");
     }
 
     /**
      * Saving to a file.
      */
     public void testSave() throws IOException {
-       	String[] expected = new String[] {"[common]", "[test]", "", "hallo = velo", "# english",
-       	                                  "hello = bike"};
+        String[] expected = new String[] {"[common]", "[test]", "", "hallo = velo", "# english",
+                                          "hello = bike"};
         IniEditor i = new IniEditor("common");
-       	i.addSection("test");
-       	i.addBlankLine("test");
-       	i.set("test", "hallo", "velo");
-       	i.addComment("test", "english");
-       	i.set("test", "hello", "bike");
+        i.addSection("test");
+        i.addBlankLine("test");
+        i.set("test", "hallo", "velo");
+        i.addComment("test", "english");
+        i.set("test", "hello", "bike");
         File f = File.createTempFile("test", null);
         // with output stream
         i.save(new FileOutputStream(f));
@@ -322,59 +322,59 @@ public class IniEditorTest extends TestCase {
         assertTrue(Arrays.equals(expected, saved));
     }
 
-	/**
+    /**
      * Saving and loading with a character encoding.
      */
     public void testSaveLoadCharset() throws IOException {
-       	String[] expected = new String[] {
-       	    "[c�mm�n]", "[t�st]", "", "h�llo = vel�"
+        String[] expected = new String[] {
+            "[c�mm�n]", "[t�st]", "", "h�llo = vel�"
         };
         String charsetName = "UTF-16";
         IniEditor i = new IniEditor("c�mm�n");
-       	i.addSection("t�st");
-       	i.set("t�st", "h�llo", "vel�");
+        i.addSection("t�st");
+        i.set("t�st", "h�llo", "vel�");
         File f = File.createTempFile("test", null);
         i.save(new OutputStreamWriter(new FileOutputStream(f), charsetName));
-		i = new IniEditor("c�mm�n");
-		i.load(new InputStreamReader(new FileInputStream(f), charsetName));
-		assertEquals(i.get("t�st", "h�llo"), "vel�");
-	}
+        i = new IniEditor("c�mm�n");
+        i.load(new InputStreamReader(new FileInputStream(f), charsetName));
+        assertEquals(i.get("t�st", "h�llo"), "vel�");
+    }
 
-	/**
+    /**
      * Closing file on load.
      */
     public void testLoadClosingStream() throws IOException {
         IniEditor i = new IniEditor();
-       	i.addSection("test");
-       	i.set("test", "hallo", "velo");
+        i.addSection("test");
+        i.set("test", "hallo", "velo");
         File f = File.createTempFile("test", null);
         i.save(f.toString());
         i = new IniEditor();
         i.load(f);
-		assertTrue(f.delete());
-	}
+        assertTrue(f.delete());
+    }
 
-	/**
+    /**
      * Closing file on load.
      */
     public void testCaseSensitivity() throws IOException {
         IniEditor i = new IniEditor("Common", true);
-       	assertTrue(i.hasSection("Common"));
-       	assertTrue(!i.hasSection("common"));
-       	i.addSection("Test");
-       	assertTrue(i.hasSection("Test"));
-       	assertTrue(!i.hasSection("test"));
-       	i.set("Test", "Hallo", "velo");
-       	assertEquals("velo", i.get("Test", "Hallo"));
-       	assertNull(i.get("Test", "hallo"));
+        assertTrue(i.hasSection("Common"));
+        assertTrue(!i.hasSection("common"));
+        i.addSection("Test");
+        assertTrue(i.hasSection("Test"));
+        assertTrue(!i.hasSection("test"));
+        i.set("Test", "Hallo", "velo");
+        assertEquals("velo", i.get("Test", "Hallo"));
+        assertNull(i.get("Test", "hallo"));
         try {
-           	i.set("TesT", "hallo", "velo");
-           	fail("should fail");
+            i.set("TesT", "hallo", "velo");
+            fail("should fail");
         }
         catch (IniEditor.NoSuchSectionException ex) {
             /* ok */
         }
-	}
+    }
 
     public void testSetOptionFormat() throws IOException {
         IniEditor i = new IniEditor();
@@ -385,8 +385,8 @@ public class IniEditorTest extends TestCase {
             /* ok, this should happen */
         }
         i.setOptionFormatString("%s%s%s");
-       	i.addSection("test");
-       	i.set("test", "hallo", "velo");
+        i.addSection("test");
+        i.set("test", "hallo", "velo");
         File f = File.createTempFile("test", null);
         i.save(new FileOutputStream(f));
         Object[] saved = fileToStrings(f);
@@ -402,21 +402,21 @@ public class IniEditorTest extends TestCase {
         return l.toArray();
     }
 
-	private static File toTempFile(String text) throws IOException {
-		File temp = File.createTempFile("inieditortest", null);
-		FileWriter fw = new FileWriter(temp);
-		fw.write(text);
-		fw.close();
-		return temp;
-	}
+    private static File toTempFile(String text) throws IOException {
+        File temp = File.createTempFile("inieditortest", null);
+        FileWriter fw = new FileWriter(temp);
+        fw.write(text);
+        fw.close();
+        return temp;
+    }
 
-	private static File toTempFile(String[] lines) throws IOException {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < lines.length; i++) {
-			sb.append(lines[i] + "\n");
-		}
-		return toTempFile(sb.toString());
-	}
+    private static File toTempFile(String[] lines) throws IOException {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < lines.length; i++) {
+            sb.append(lines[i] + "\n");
+        }
+        return toTempFile(sb.toString());
+    }
 
     public static Test suite() {
         return new TestSuite(IniEditorTest.class);
