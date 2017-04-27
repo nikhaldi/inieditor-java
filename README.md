@@ -93,13 +93,13 @@ r4, 8/10/2005 ([download](http://nikhaldi.github.com/inieditor-java/downloads/in
 - added the concept of an option format which makes it possible to
   finetune the output format when saving to a file.
 
-r5, 3/4/2013 ([Maven](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nikhaldimann%22%20AND%20a%3A%22inieditor%22), [download](http://nikhaldi.github.com/inieditor-java/downloads/inieditor.tar.gz)):
+r5, 3/4/2013 ([Maven](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nikhaldimann%22%20AND%20a%3A%22inieditor%22), [download](http://nikhaldi.github.com/inieditor-java/downloads/inieditor-r5.tar.gz)):
 - revived the code from an old backup
 - renamed package from `ch.ubique.inieditor` to `com.nikhaldimann.inieditor`,
   as I don't own the ubique.ch domain anymore
 - used generic collection types throughout
 
-r6, 4/27/2017
+r6, 4/27/2017 ([Maven](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nikhaldimann%22%20AND%20a%3A%22inieditor%22), [download](http://nikhaldi.github.com/inieditor-java/downloads/inieditor.tar.gz))
 - added IniEditor.getSectionMap()
 
 
