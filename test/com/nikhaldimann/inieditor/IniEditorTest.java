@@ -327,17 +327,17 @@ public class IniEditorTest extends TestCase {
      */
     public void testSaveLoadCharset() throws IOException {
         String[] expected = new String[] {
-            "[c�mm�n]", "[t�st]", "", "h�llo = vel�"
+                "[cmmn]", "[tst]", "", "hllo = vel"
         };
         String charsetName = "UTF-16";
-        IniEditor i = new IniEditor("c�mm�n");
-        i.addSection("t�st");
-        i.set("t�st", "h�llo", "vel�");
+        IniEditor i = new IniEditor("cmmn");
+        i.addSection("tst");
+        i.set("tst", "hllo", "vel");
         File f = File.createTempFile("test", null);
         i.save(new OutputStreamWriter(new FileOutputStream(f), charsetName));
-        i = new IniEditor("c�mm�n");
+        i = new IniEditor("cmmn");
         i.load(new InputStreamReader(new FileInputStream(f), charsetName));
-        assertEquals(i.get("t�st", "h�llo"), "vel�");
+        assertEquals(i.get("tst", "hllo"), "vel");
     }
 
     /**
