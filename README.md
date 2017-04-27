@@ -64,7 +64,7 @@ Add this dependency to your pom.xml:
     <dependency>
       <groupId>com.nikhaldimann</groupId>
       <artifactId>inieditor</artifactId>
-      <version>r5</version>
+      <version>r6</version>
     </dependency>
 
 If you use a build system other than Maven, a download of the latest release including a precompiled JAR file is available at
@@ -99,11 +99,14 @@ r5, 3/4/2013 ([Maven](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.nikh
   as I don't own the ubique.ch domain anymore
 - used generic collection types throughout
 
+r6, 4/27/2017
+- added IniEditor.getSectionMap()
+
 
 License
 -------
 
-IniEditor is Copyright (c) 2003-2013, Nik Haldimann (nhaldimann at gmail dot com).
+IniEditor is Copyright (c) 2003-2017, Nik Haldimann (nhaldimann at gmail dot com).
 It comes with a BSD-style license: You may use and modify it freely as well as
 redistribute it under certain conditions. See the `LICENSE.txt` file
 for details.
