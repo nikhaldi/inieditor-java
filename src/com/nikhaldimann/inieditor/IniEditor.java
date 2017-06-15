@@ -962,7 +962,7 @@ public class IniEditor {
         /**
          * Returns an actual Option instance.
          *
-         * @param option the name of the option, assumed to be normed already (!)
+         * @param name the name of the option, assumed to be normed already (!)
          * @return the requested Option instance
          * @throws NullPointerException if no option with the specified name exists
          */
