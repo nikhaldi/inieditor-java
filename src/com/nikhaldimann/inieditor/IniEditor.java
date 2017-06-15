@@ -750,11 +750,9 @@ public class IniEditor {
          */
         public List<String> optionNames() {
             List<String> optNames = new LinkedList<String>();
-            Iterator<Line> it = this.lines.iterator();
-            while (it.hasNext()) {
-                Line line = it.next();
+            for (Line line : this.lines) {
                 if (line instanceof Option) {
-                    optNames.add(((Option)line).name());
+                    optNames.add(((Option) line).name());
                 }
             }
             return optNames;
@@ -950,9 +948,8 @@ public class IniEditor {
          * @throws IOException at an I/O problem
          */
         public void save(PrintWriter writer) throws IOException {
-            Iterator<Line> it = this.lines.iterator();
-            while (it.hasNext()) {
-                writer.println(it.next().toString());
+            for (Line line : this.lines) {
+                writer.println(line.toString());
             }
             if (writer.checkError()) {
                 throw new IOException();
@@ -992,8 +989,8 @@ public class IniEditor {
             if (name.trim().equals("")) {
                 return false;
             }
-            for (int i = 0; i < INVALID_NAME_CHARS.length; i++) {
-                if (name.indexOf(INVALID_NAME_CHARS[i]) >= 0) {
+            for (char INVALID_NAME_CHAR : INVALID_NAME_CHARS) {
+                if (name.indexOf(INVALID_NAME_CHAR) >= 0) {
                     return false;
                 }
             }
