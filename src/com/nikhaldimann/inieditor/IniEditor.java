@@ -500,10 +500,9 @@ public class IniEditor {
      * @throws IOException at an I/O problem
      */
     public void save(OutputStreamWriter streamWriter) throws IOException {
-        Iterator<String> it = this.sectionOrder.iterator();
         PrintWriter writer = new PrintWriter(streamWriter, true);
-        while (it.hasNext()) {
-            Section sect = getSection(it.next());
+        for (String sectionName : sectionOrder) {
+            Section sect = getSection(sectionName);
             writer.println(sect.header());
             sect.save(writer);
         }
