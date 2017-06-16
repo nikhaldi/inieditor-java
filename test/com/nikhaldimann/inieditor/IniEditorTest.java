@@ -150,6 +150,18 @@ public class IniEditorTest extends TestCase {
         assertEquals(i.getSectionMap("common"), new HashMap<String, String>());
     }
 
+    public void testGetIniMap() {
+        IniEditor i = new IniEditor();
+        Map<String, Map<String, String>> temp = new HashMap<String, Map<String, String>>();
+        assertEquals(i.getIniMap(), temp);
+        i.addSection("test");
+        temp.put("test", new HashMap<String, String>());
+        assertEquals(i.getIniMap(), temp);
+        i.set("test", "hallo", "bike");
+        temp.get("test").put("hallo", "bike");
+        assertEquals(i.getIniMap(), temp);
+    }
+
     /**
      * Setting options with illegal names.
      */

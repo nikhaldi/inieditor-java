@@ -120,6 +120,7 @@ public class IniEditor {
     private char[] commentDelims;
     private boolean isCaseSensitive;
     private OptionFormat optionFormat;
+    private String iniName = null;
 
     /**
      * Constructs new bare IniEditor instance.
@@ -243,6 +244,13 @@ public class IniEditor {
     }
 
     /**
+     * Returns the name of the INI file if it exists, or null otherwise.
+     */
+    public String getName() {
+        return iniName;
+    }
+
+    /**
      * Returns the value of a given option in a given section or null if either
      * the section or the option don't exist. If a common section was defined
      * options are also looked up there if they're not present in the specific
@@ -284,6 +292,19 @@ public class IniEditor {
             return sectionMap;
         }
         return null;
+    }
+
+    /**
+     * Returns a nested map of the entire Ini file for simple reading.
+     *
+     * @return HashMap of section/option/value for entire ini file
+     */
+    public Map<String , Map<String, String>> getIniMap() {
+        Map<String, Map<String, String>> iniMap = new HashMap<String, Map<String, String>>();
+        for(String section: sectionNames()) {
+            iniMap.put(section, getSectionMap(section));
+        }
+        return iniMap;
     }
 
     /**
@@ -500,10 +521,9 @@ public class IniEditor {
      * @throws IOException at an I/O problem
      */
     public void save(OutputStreamWriter streamWriter) throws IOException {
-        Iterator<String> it = this.sectionOrder.iterator();
         PrintWriter writer = new PrintWriter(streamWriter, true);
-        while (it.hasNext()) {
-            Section sect = getSection(it.next());
+        for (String sectionName : sectionOrder) {
+            Section sect = getSection(sectionName);
             writer.println(sect.header());
             sect.save(writer);
         }
@@ -518,6 +538,7 @@ public class IniEditor {
      * @throws IOException at an I/O problem
      */
     public void load(String filename) throws IOException {
+        iniName = filename;
         load(new File(filename));
     }
 
@@ -530,6 +551,7 @@ public class IniEditor {
      * @throws IOException at an I/O problem
      */
     public void load(File file) throws IOException {
+        iniName = file.getName();
         InputStream in = new FileInputStream(file);
         load(in);
         in.close();
@@ -750,11 +772,9 @@ public class IniEditor {
          */
         public List<String> optionNames() {
             List<String> optNames = new LinkedList<String>();
-            Iterator<Line> it = this.lines.iterator();
-            while (it.hasNext()) {
-                Line line = it.next();
+            for (Line line : this.lines) {
                 if (line instanceof Option) {
-                    optNames.add(((Option)line).name());
+                    optNames.add(((Option) line).name());
                 }
             }
             return optNames;
@@ -950,9 +970,8 @@ public class IniEditor {
          * @throws IOException at an I/O problem
          */
         public void save(PrintWriter writer) throws IOException {
-            Iterator<Line> it = this.lines.iterator();
-            while (it.hasNext()) {
-                writer.println(it.next().toString());
+            for (Line line : this.lines) {
+                writer.println(line.toString());
             }
             if (writer.checkError()) {
                 throw new IOException();
@@ -962,7 +981,7 @@ public class IniEditor {
         /**
          * Returns an actual Option instance.
          *
-         * @param option the name of the option, assumed to be normed already (!)
+         * @param name the name of the option, assumed to be normed already (!)
          * @return the requested Option instance
          * @throws NullPointerException if no option with the specified name exists
          */
@@ -992,8 +1011,8 @@ public class IniEditor {
             if (name.trim().equals("")) {
                 return false;
             }
-            for (int i = 0; i < INVALID_NAME_CHARS.length; i++) {
-                if (name.indexOf(INVALID_NAME_CHARS[i]) >= 0) {
+            for (char INVALID_NAME_CHAR : INVALID_NAME_CHARS) {
+                if (name.indexOf(INVALID_NAME_CHAR) >= 0) {
                     return false;
                 }
             }
