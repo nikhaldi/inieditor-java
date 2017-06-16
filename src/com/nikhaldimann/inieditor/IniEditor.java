@@ -120,6 +120,7 @@ public class IniEditor {
     private char[] commentDelims;
     private boolean isCaseSensitive;
     private OptionFormat optionFormat;
+    private String iniName = null;
 
     /**
      * Constructs new bare IniEditor instance.
@@ -240,6 +241,13 @@ public class IniEditor {
      */
     public void setOptionFormatString(String formatString) {
         this.optionFormat = new OptionFormat(formatString);
+    }
+
+    /**
+     * Returns the name of the INI file if it exists, or null otherwise.
+     */
+    public String getName() {
+        return iniName;
     }
 
     /**
@@ -530,6 +538,7 @@ public class IniEditor {
      * @throws IOException at an I/O problem
      */
     public void load(String filename) throws IOException {
+        iniName = filename;
         load(new File(filename));
     }
 
@@ -542,6 +551,7 @@ public class IniEditor {
      * @throws IOException at an I/O problem
      */
     public void load(File file) throws IOException {
+        iniName = file.getName();
         InputStream in = new FileInputStream(file);
         load(in);
         in.close();
