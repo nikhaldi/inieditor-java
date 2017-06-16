@@ -287,6 +287,19 @@ public class IniEditor {
     }
 
     /**
+     * Returns a nested map of the entire Ini file for simple reading.
+     *
+     * @return HashMap of section/option/value for entire ini file
+     */
+    public Map<String , Map<String, String>> getIniMap() {
+        Map<String, Map<String, String>> iniMap = new HashMap<String, Map<String, String>>();
+        for(String section: sectionNames()) {
+            iniMap.put(section, getSectionMap(section));
+        }
+        return iniMap;
+    }
+
+    /**
      * Sets the value of an option in a section, if the option exist, otherwise
      * adds the option to the section. Trims white space from the start and the
      * end of the value and deletes newline characters it might contain.
